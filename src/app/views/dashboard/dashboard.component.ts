@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Menu } from './types/menu';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,76 +10,93 @@ export class DashboardComponent implements OnInit {
 
   showSideBar: boolean = false;
 
-  selectedTab: string | undefined ;
-  showSubmenu: any[] = [];
-  showInfo: any[] = [];
-
-  menus: any[] = [
-
-    /* Administration */
+  menus: Menu[] = [
     {
-      class: 'bx bx-lock-alt',
-      item: 'Administration',
-      route: '/dashboard/adiministration',
-      arrowDown: 'bx bx-chevron-down',
-      arrowUp: 'bx bx-chevron-up',
+      name: 'Administration',
+      iconClass: 'fas fa-desktop',
+      active: false,
+      submenu: [
+        { name: 'Portfolio', url: '/administration/portfolio' },
 
-      submenus: [
-        {
-          class: 'bx bx-key',
-          item: 'Account Opening',
-          route: '/administration/account-opening',
-        },
-        {
-          class: 'bx bx-wallet',
-          item: 'Portfolio',
-          route: '/administration/portfolio',
-        },
-       
       ],
     },
-
-    /* Market */
-    {
-      class: 'bx bx-chart',
-      item: 'Market',
-      route: '/dashboard/market',
-      arrowDown: 'bx bx-chevron-down',
-      arrowUp: 'bx bx-chevron-up',
-
-      submenus: [
-        {
-          class: 'bx bx-coin-stack',
-          item: 'Value',
-          route: '/market/value',
-        },
-        {
-          class: 'bx bx-line-chart',
-          item: 'Indice',
-          route: '/market/indice',
-        },
-       
-      ],
-    },
-
- 
-  ];
-
-  constructor() { }
+    // {
+    //   name: "Marché",
+    //   iconClass: 'fas fa-user-friends',
+    //   active: false,
+    //   submenu: [
+    //     { name: 'Valeurs', url: '#' },
+    //     { name: 'Indices boursiers', url: '#' },
+    //     { name: 'Devise', url: '#' },
+    //     { name: 'Tableau de valeurs', url: '#' }
+    //   ],
+    // },
+    // {
+    //   name: "Dta",
+    //   iconClass: 'fas fa-user-friends',
+    //   active: false,
+    //   submenu: [
+    //     { name: 'Création formulaire', url: '#' },
+    //     { name: 'Suppression formulaire', url: '#' },
+    //     { name: 'Suivi formulaire', url: '#' }
+    //   ],
+    // },
+    // {
+    //   name: "Portefeuille",
+    //   iconClass: 'fas fa-user-friends',
+    //   active: false,
+    //   submenu: [
+    //     { name: 'Titre en portefeuille', url: '#' },
+    //     { name: 'Mouvements titres', url: '#' },
+    //     { name: 'Echéancier', url: '#' },
+    //     { name: 'Opérations sur titres', url: '#' }
+    //   ],
+    // },
+    // {
+    //   name: "Ordres",
+    //   iconClass: 'fas fa-user-friends',
+    //   active: false,
+    //   submenu: [
+    //     { name: 'Ordres en note', url: '#' },
+    //     { name: 'Simulation', url: '#' },
+    //     { name: 'Nouvel ordre', url: '#' },
+    //     { name: 'Opération du jour', url: '#' },
+    //     { name: 'Archive ordres', url: '#' },
+    //     { name: 'Archive bordereaux', url: '#' }
+    //   ],
+    // },
+    // {
+    //   name: "Transferts",
+    //   iconClass: 'fas fa-user-friends',
+    //   active: false,
+    //   submenu: [
+    //     { name: 'Transfert interne', url: '#' },
+    //     { name: 'Transfert externe', url: '#' },
+    //     { name: 'Transfert du client', url: '#' }
+    //   ],
+    // },
+  ]
 
   ngOnInit() {}
 
-  toggleSideBar() {
-    this.showSideBar = !this.showSideBar;
-    }
-
-  toggleMenu(index: number) {
-    this.showSubmenu[index] = !this.showSubmenu[index];
+  toggle(index: number) {
+    this.menus[index].active = !this.menus[index].active;
   }
 
-  toggleSubmenu(event: MouseEvent, item: any) {
-    event.stopPropagation();
-    this.showInfo[item] = !this.showInfo[item];
+  toggleSideBar() {
+    this.showSideBar = !this.showSideBar;
+  }
+
+  selectMenu(parentMenu: { name: string }) : void {
+
+    this.menus.forEach(menu => {
+      if (menu.name !== parentMenu.name) {
+        menu.active = false;
+      } else {
+        menu.active = !menu.active;
+      }
+    })
+   
   }
 
 }
